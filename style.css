@@ -1,0 +1,16 @@
+body{
+    background-color: rgb(116, 207, 24);
+}
+p{
+    text-align: center;
+    font-size: 40px;
+}
+h1{ background-color: blueviolet;
+    font-size: 80px;
+    color: brown;
+    text-align: center;
+}
+h2{background-color: coral;
+    font-size: 40px;
+    color: brown;
+    text-align: center;}
