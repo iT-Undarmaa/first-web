@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        #cart-wrap * {
+  font-family: arial, sans-serif;
+  box-sizing: border-box;
+}
+#cart-wrap {
+  display: flex;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+#cart-products, #cart-items { padding: 10px; }
+#cart-products { flex-grow: 1; }
+#cart-items { width: 180px; }
+input.cart, button.cart {
+  padding: 10px;
+  border: 0;
+  background: #ff4316;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* (B) PRODUCTS LIST */
+#cart-products {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-gap: 10px;
+}
+.p-item {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  text-align: center;
+}
+.p-img {
+  width:100%;
+  height: 130px;
+  object-fit: cover;
+}
+.p-name, .p-price { font-weight: 700; }
+.p-name, .p-desc, .p-price { margin: 5px 0; }
+.p-name {
+  font-size: 1.35em;
+  text-transform: uppercase;
+}
+.p-desc {
+  color: #7c7979;
+  font-size: 0.9em;
+}
+.p-price { color: #e13d16; }
+.p-add { width: 100%; }
+
+/* (C) CURRENT SHOPPING CART */
+#cart-items {
+  background: #31394d;
+  color: #fff;
+  border-radius: 5px;
+}
+.c-item {
+  padding: 10px 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+.c-name, .c-total {
+  font-size: 1.05em;
+  font-weight: 700;
+}
+.c-name, .c-total, button.c-empty, button.c-checkout { width: 100%; }
+.c-total, button.c-empty, button.c-checkout { margin-top: 10px; }
+.c-del { width: 25%; }
+.c-qty { width: 75%; }
+.c-empty, .c-checkout { width: 100%; }
+
+/* (D) RESPONSIVE */
+@media screen and (max-width: 640px) {
+  #cart-products {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+    </style>
+    <div id="cart-wrap">
+        <!-- (A1) PRODUCTS LIST -->
+        <div id="cart-products"></div>
+  
+        <!-- (A2) CURRENT CART ITEMS -->
+        <div id="cart-items"></div>
+      </div>
+  
+      <!-- (B) TEMPLATES -->
+      <!-- (B1) PRODUCT CELL -->
+      <template id="template-product">
+      <div class="p-item">
+        <img class="p-img"/>
+        <div class="p-name"></div>
+        <div class="p-desc"></div>
+        <div class="p-price"></div>
+        <button class="cart p-add">Авах</button>
+      </div>
+      </template>
+  
+      <!-- (B2) CART ITEMS -->
+      <template id="template-cart">
+      <div class="c-item">
+        <div class="c-name"></div>
+        <button class="c-del cart">X</button>
+        <input class="c-qty" type="number" min="0"/>
+      </div>
+      </template>
+      <template id="template-cart-checkout">
+        <button class="c-empty cart" onclick="cart.nuke()">Хоослох</button>
+        <button class="c-checkout cart" onclick="cart.checkout()">Checkout</button>
+      </template>
+    <script>
+        let u = parseInt(prompt("Та захиалгаа хийх үү:тийм-1, үгүй-2"));
+        if (u==2) {alert("та дахин үйлчлүүлээрэй");}
+               if (u==1) {var products = {
+  1: {
+    name : "Хуйцаа",
+    desc : "Yellow curved fruit.",
+    img : "хуйцаа.jpeg",
+    price : 1.2
+  },
+  2: {
+    name : "Хуушуур",
+    desc : "Meat between buns.",
+    img : "хуушуур.jpeg",
+    price : 5.7
+  },
+  3: {
+    name : "Цуйван",
+    desc : "Long meat between bun.",
+    img : "цуйван.png",
+    price : 4.5
+  },
+  4: {
+    name : "Salmon",
+    desc : "Fish and lemon.",
+    img : "salmon.png",
+    price : 4.8
+  },
+  5 : {
+    name : "Sandwich",
+    desc : "Meat between square bread.",
+    img : "sandwich.png",
+    price : 3.9
+  },
+  6 : {
+    name : "Taco",
+    desc : "Folded tortilla.",
+    img : "taco.png",
+    price : 3.9
+  }
+};
+var cart = {
+  // (A) PROPERTIES
+  hPdt : null,      // html products list
+  hItems : null,    // html current cart
+  items : {},       // current items in cart
+  iURL : "images/", // product image url folder
+
+  // (B) LOCALSTORAGE CART
+  // (B1) SAVE CURRENT CART INTO LOCALSTORAGE
+  save : () => {
+    localStorage.setItem("cart", JSON.stringify(cart.items));
+  },
+
+  // (B2) LOAD CART FROM LOCALSTORAGE
+  load : () => {
+    cart.items = localStorage.getItem("cart");
+    if (cart.items == null) { cart.items = {}; }
+    else { cart.items = JSON.parse(cart.items); }
+  },
+
+  // (B3) EMPTY ENTIRE CART
+  nuke : () => { if (confirm("Хоослох уу?")) {
+    cart.items = {};
+    localStorage.removeItem("cart");
+    cart.list();
+  }},
+
+  // (C) INITIALIZE
+  init : () => {
+    // (C1) GET HTML ELEMENTS
+    cart.hPdt = document.getElementById("cart-products");
+    cart.hItems = document.getElementById("cart-items");
+
+    // (C2) DRAW PRODUCTS LIST
+    cart.hPdt.innerHTML = "";
+    let template = document.getElementById("template-product").content,
+        p, item, part;
+    for (let id in products) {
+      p = products[id];
+      item = template.cloneNode(true);
+      item.querySelector(".p-img").src = cart.iURL + p.img;
+      item.querySelector(".p-name").textContent = p.name;
+      item.querySelector(".p-desc").textContent = p.desc;
+      item.querySelector(".p-price").textContent = "$" + p.price.toFixed(2);
+      item.querySelector(".p-add").onclick = () => { cart.add(id); };
+      cart.hPdt.appendChild(item);
+    }
+
+    // (C3) LOAD CART FROM PREVIOUS SESSION
+    cart.load();
+
+    // (C4) LIST CURRENT CART ITEMS
+    cart.list();
+  },
+
+  // (D) LIST CURRENT CART ITEMS (IN HTML)
+  list : () => {
+    // (D1) RESET
+    cart.hItems.innerHTML = "";
+    let item, part, pdt, empty = true;
+    for (let key in cart.items) {
+      if (cart.items.hasOwnProperty(key)) { empty = false; break; }
+    }
+
+    // (D2) CART IS EMPTY
+    if (empty) {
+      item = document.createElement("div");
+      item.innerHTML = "Cart is empty";
+      cart.hItems.appendChild(item);
+    }
+
+    // (D3) CART IS NOT EMPTY - LIST ITEMS
+    else {
+      let template = document.getElementById("template-cart").content,
+          p, total = 0, subtotal = 0;
+      for (let id in cart.items) {
+        // (D3-1) PRODUCT ITEM
+        p = products[id];
+        item = template.cloneNode(true);
+        item.querySelector(".c-del").onclick = () => { cart.remove(id); };
+        item.querySelector(".c-name").textContent = p.name;
+        item.querySelector(".c-qty").value = cart.items[id];
+        item.querySelector(".c-qty").onchange = function () { cart.change(id, this.value); };
+        cart.hItems.appendChild(item);
+
+        // (D3-2) SUBTOTAL
+        subtotal = cart.items[id] * p.price;
+        total += subtotal;
+      }
+
+      // (D3-3) TOTAL AMOUNT
+      item = document.createElement("div");
+      item.className = "c-total";
+      item.id = "c-total";
+      item.innerHTML ="TOTAL: $" + total.toFixed(2);
+      cart.hItems.appendChild(item);
+
+      // (D3-4) EMPTY & CHECKOUT
+      item = document.getElementById("template-cart-checkout").content.cloneNode(true);
+      cart.hItems.appendChild(item);
+    }
+  },
+
+  // (E) ADD ITEM INTO CART
+  add : (id) => {
+    if (cart.items[id] == undefined) { cart.items[id] = 1; }
+    else { cart.items[id]++; }
+    cart.save(); cart.list();
+  },
+
+  // (F) CHANGE QUANTITY
+  change : (pid, qty) => {
+    // (F1) REMOVE ITEM
+    if (qty <= 0) {
+      delete cart.items[pid];
+      cart.save(); cart.list();
+    }
+
+    // (F2) UPDATE TOTAL ONLY
+    else {
+      cart.items[pid] = qty;
+      var total = 0;
+      for (let id in cart.items) {
+        total += cart.items[id] * products[id].price;
+        document.getElementById("c-total").innerHTML ="TOTAL: $" + total;
+      }
+    }
+  },
+
+  // (G) REMOVE ITEM FROM CART
+  remove : (id) => {
+    delete cart.items[id];
+    cart.save();
+    cart.list();
+  },
+
+  // (H) CHECKOUT
+  checkout : () => {
+    // (H1) CONNECT TO PEER SERVER
+    const peer = new Peer(null, {
+      host: "localhost",
+      port: 9000,
+      path: "/"
+    });
+
+    // (H2) SEND DATA TO MANAGER
+    peer.on("open", (id) => {
+      var conn = peer.connect("MANAGER");
+      conn.on("open", () => {
+        conn.send(JSON.stringify(cart.items));
+      });
+      conn.on("close", () => {
+        cart.items = {};
+        localStorage.removeItem("cart");
+        cart.list();
+        alert("Order sent!");
+      });
+    });
+  }
+};
+window.addEventListener("DOMContentLoaded", cart.init);
+ }
+     else {alert("буруу үйлдэл хийгдлээ");};
+    </script>
+</body>
+</html>
