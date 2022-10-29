@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        body{
+    background-color: black;
+    margin:0;
+    padding:0;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+*{
+    box-sizing: border-box;
+}
+
+.quiz-wrapper{
+    height: 400px;
+    width: 600px;
+    background-color: white;
+    margin: 30px auto;
+    border-radius: 8px;
+    padding:25px
+}
+
+.quiz-wrapper .question{
+    min-height: 50px;
+    background-color: teal;
+    border-radius: 8px;
+    color: white;
+    padding: 15px;
+    float: left;
+    width: 100%;
+    font-size: 25px;
+}
+
+.quiz-wrapper .options{
+    float: left;
+    width: 100%;
+}
+
+.quiz-wrapper .options ul{
+    list-style: none;
+    padding: 0%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.quiz-wrapper .options ul li{
+    display: inline-block;
+    background-color: #607d8b;
+    width: 46%;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    margin: 10px;
+    color:white;
+    box-shadow: 0px 3px 0px grey;
+    cursor: pointer;
+}
+
+.quiz-wrapper .options ul li.correct{
+    background-color: green;
+    box-shadow: 0px 3px 0px grey;
+}
+
+.quiz-wrapper .options ul li.wrong{
+    background-color: red;
+    box-shadow: 0px 3px 0px grey;
+}
+
+.quiz-wrapper .options ul li:active{
+    box-shadow: 0px 0px 0px  rgb(84, 110, 179);
+}
+
+
+
+.quiz-wrapper .score {
+    float: left;
+    width: 100%;
+}
+
+.quiz-wrapper .score .next{
+    width: 40%;
+    float: left;
+}
+
+.quiz-wrapper .score .next button{
+    padding: 10px 70px;
+    color: white;
+    background-color:#ec930d;
+    border: none;
+    border-radius: 8px;
+}
+
+.quiz-wrapper .score .score-card{
+    width: 60%;
+    float: left;
+    line-height: 40px;
+    font-size: 20px;
+}
+
+.quiz-wrapper .score .score-card span{
+    background-color: rgb(12, 88, 29);
+    padding: 5px 20px;
+    border: none;
+    color:white;
+    border-radius: 8px;
+}
+    </style>
+    <div class="quiz-wrapper">       
+        <div id="questionBox" class="question">
+            Sample Question
+        </div>
+        <div class="options">
+            <ul id="ul">
+                <li id="opt1" onclick="button(this)"></li>
+                <li id="opt2" onclick="button(this)"></li>
+                <li id="opt3" onclick="button(this)"></li>
+                <li id="opt4" onclick="button(this)"></li>
+            </ul>
+        </div>
+        <div class="score">
+            <div class="next">
+                <button id="btnNext" type="button" onclick="next()">
+                  Next
+                </button>
+            </div>
+            <div class="score-card">
+                SCORE: <span id="scoreCard">0</span>
+            </div>
+        </div>
+    </div>
+    <script>
+        var ul = document.getElementById('ul')
+var nextButton = document.getElementById('btnNext');
+var quizbox = document.getElementById('questionBox')
+var opt1 = document.getElementById('opt1')
+var opt2 = document.getElementById('opt2')
+var opt3 = document.getElementById('opt3')
+var opt4 = document.getElementById('opt4')
+var app={
+        questions:[
+            {
+                q:'Championship',
+                options: ['нөхөрлөл', 'аварга шалгаруулах тэмцээн', 'найрамдал', 'хөлөг онгоц'],
+                answer:2
+            },
+            {
+                q:'wedding',
+                options: ['хурим', 'тэврэлт', 'үнсэлт', 'гэр бүл болох'],
+                answer:1
+            },   
+            {
+                q:'Envelope',
+                options: ['захиа', 'хайрцаг', 'дугтуй', 'боолт'],
+                answer:3
+            },
+            {
+                q:'Athlete',
+                options: ['мөөгөнцөр', 'бие бялдар', 'бөөрөнцөг', 'тамирчин'],
+                answer:4
+            },
+            {
+                q:'Band',
+                options: ['өмд', 'хамтлаг, баг', 'дугтуй', 'эрэгтэй хүүхэд'],
+                answer:2
+            },
+            {
+                q:'Excited',
+                options: ['сэтгэл хөдөлсөн', 'уурласан', 'инээсэн', 'явсан'],
+                answer:1
+            },
+ {
+                q:'Cabin',
+                options: ['утас','бүхээг, овоохой', 'кабель', 'гэр'],
+                answer:2
+            },
+ {
+                q:'Plain',
+                options: ['онгоц', 'гариг', 'энгийн', 'явсан'],
+                answer:3
+            },
+{
+                q:'Encouragement',
+                options: ['айдас', 'бэлэг', 'сайшаал, урамшуулал', 'итгэлгүй байдал'],
+                answer:3
+            },
+{
+                q:'Reunion',
+                options: ['ялах', 'сонгино', 'дахин шалгах', 'нэгдэх'],
+                answer:4
+            },
+{
+                q:'Surgeon',
+                options: ['мэс заслын эмч', 'ахлах байлдагч', 'хурандаа', 'цэрэг'],
+                answer:1
+            },
+{
+                q:'Receive',
+                options: ['дамжуулах', 'хүлээн авах', 'явуулах', 'өгөх'],
+                answer:2
+            },
+{
+                q:'Canyon',
+                options: ['хавцал', 'хувилагч', 'цэнэг', 'уул'],
+                answer:1
+            },
+{
+                q:'Cliff',
+                options: ['уул', 'чулуу', 'хад', 'дуу'],
+                answer:3
+            },
+{
+                q:'Stream',
+                options: ['тэмүүлэл', 'нэвтрүүлэг', 'ус', 'гол'],
+                answer:4
+            },
+{
+                q:'Traditional',
+                options: ['ашигтай', 'орчин үеийн', 'уламжлалт', 'олон төрлийн'],
+                answer:3
+            },
+{
+                q:'Paragraph',
+                options: ['гарчиг', 'багана', 'дараагийн хуудас', 'догол мөр'],
+                answer:4
+            },
+{
+                q:'Balance',
+                options: ['жингүйдэл', 'тэнцвэр', 'цэнэг', 'гажуудал'],
+                answer:2
+            },
+{
+                q:'Suburb',
+                options: ['хот', 'аймаг', 'хотын зах', 'сум'],
+                answer:3
+            },
+{
+                q:'Beetle',
+                options: ['ялаа', 'зөгий', 'цох', 'шумуул'],
+                answer:3
+            },
+{
+                q:'Ticket',
+                options: ['тасалбар', 'даралт', 'зоогийн газар', 'хөдөлгүүр'],
+                answer:1
+            },
+{
+                q:'Escape',
+                options: ['аялах', 'зугтах', 'зугаалах', 'тайлбарлах'],
+                answer:2
+            },
+{
+                q:'Exact',
+                options: ['ашигтай', 'орчин үеийн', 'яг нарийн', 'олон төрлийн'],
+                answer:3
+            },
+{
+                q:'Secretary',
+                options: ['тамирчин', 'мэс заслын эмч', 'нарийн бичгийн дарга', 'бичээч'],
+                answer:3
+            }
+
+        ],
+        index:0,
+        //Load a question using the index
+        load:function(){
+            if(this.index<=this.questions.length-1){
+                quizbox.innerHTML=this.index+1 + ". " +this.questions[this.index].q;
+                opt1.innerHTML=this.questions[this.index].options[0];
+                opt2.innerHTML=this.questions[this.index].options[1];
+                opt3.innerHTML=this.questions[this.index].options[2];
+                opt4.innerHTML=this.questions[this.index].options[3];
+            }
+            else {
+                //Show the end screen
+                quizbox.innerHTML="Quiz Completed!";
+                ul.style.display="none";
+                nextButton.style.display="none";
+            }
+        },
+        next: function(){
+            this.index++;
+            this.load();
+        },
+        //Check if answer is correct or not
+        check: function(ele){
+            var id=ele.id.split('');
+            if(id[id.length-1]==this.questions[this.index].answer){
+                this.score++;
+                ele.className="correct";
+                this.scoreCard();
+            }
+            else{
+                ele.className="wrong";
+            }
+        },
+        //disable options once user selects on option
+        preventClick:function(){
+            for(let i=0; i<ul.children.length; i++){
+                ul.children[i].style.pointerEvents="none";
+            }
+        },
+        allowClick:function(){
+            for(let i=0; i<ul.children.length; i++){
+                ul.children[i].style.pointerEvents="auto";
+                ul.children[i].className=''
+            }
+        },
+        score:0,
+        scoreCard:function(){
+            scoreCard.innerHTML=this.questions.length + "/" + this.score;
+        }
+}
+window.load=app.load();
+
+function button(ele){
+    app.check(ele);
+    app.preventClick();
+}
+
+function next(){
+    app.next();
+    app.allowClick();
+}
+    </script>
+</body>
+</html>
