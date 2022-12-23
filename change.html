@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="w3-container">
+        <center><h2>Ханш хөрвүүлэгч</h2></center>
+        <div class="container-mt3">
+          <h4 id="demo"></h4>
+            <table class="table">
+            <tr>
+              <th>Валют</th>
+              <th>Валютын нэр</th>
+              <th>Албан ханш</th>
+              <th>Авах</th>
+              <th>Зарах</th>
+              <th>Авах</th>
+              <th>Зарах</th>
+            </tr>
+            <tr class="table-danger">
+              <td>
+                <img src="img/usa.png" width="10%">
+                <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-hover-red w3-card-4">USD</button>
+  <div class="w3-center"><br>
+    <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
+
+
+  </div></td>
+              <td>Америк доллар</td>
+              <td>3442</td>
+              <td>3440</td>
+              <td>3435</td>
+              <td>3445</td>
+              <td>3442</td>
+            </tr>
+            <tr class="table-primary">
+              <td><img src="img/euro.png" width="10%">
+                <a link rel="stylesheet" href="change.html">EUR</a></td>
+              <td>Евро</td>
+              <td>94</td>
+              <td>94</td>
+              <td>94</td>
+              <td>94</td>
+              <td>94</td>
+            </tr>
+            <tr class="table-success">
+                <td><img src="img/flag.png" width="10%">
+                <a link rel="stylesheet" href="change.html">CNY</a></td>
+              <td>Хятадын юань</td>
+              <td>67</td>
+              <td>67</td>
+              <td>67</td>
+              <td>67</td>
+              <td>67</td>
+            </tr>
+            <tr class="table-success">
+                <td><img src="img/australia.png" width="10%">
+                <a link rel="stylesheet" href="change.html">CNY</a></td>
+              <td>Австралийн доллар</td>
+              <td>67</td>
+              <td>67</td>
+              <td>67</td>
+              <td>67</td>
+              <td>67</td>
+            </tr>
+          
+            </table>
+            </div>
+            
+            
+            
+            </div>
+            
+
+  
+  <div id="id01" class="w3-modal">
+    <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+        <div class="w3-center"><br>
+            <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
+            <img src="img/usa.png" alt="Avatar" style="width:30%" class="w3-container w3-margin-top">
+        
+    <table>
+        <tr>
+            <td><h1>Монгол төгрөг ₮</h1></td>
+            <td><input id="mglTugrug" onchange="mglConvert()"/></td>
+
+        </tr>
+        <tr>
+            <td><h1>USD dollar </h1></td>
+            <td><input id="usdTugrug" onchange="usdConvert()"/></td>
+
+        </tr>
+    </table>
+    <script>
+       document.getElementById("demo").innerHTML = Date();
+        function mglConvert() {
+            let mgl=document.getElementById("mglTugrug");
+        let usd=document.getElementById("usdTugrug");
+
+        usd.value=mgl.value/3254;
+
+        }
+        function usdConvert() {
+            let mgl=document.getElementById("mglTugrug");
+        let usd=document.getElementById("usdTugrug");
+        mgl.value=usd.value*3442;
+        
+        }
+      
+    </script>
+</body>
+</html>
