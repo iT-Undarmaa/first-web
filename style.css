@@ -1,6 +1,8 @@
 body{
     background-color: rgb(116, 207, 24);
 }
+.container { width: 100vw;
+            box-shadow: 0 4px 10px 0 rgb(0 0 0/20%),0 4px 20px 0 rgb(0 0 0/19%); }
 p{
     text-align: center;
     font-size: 40px;
