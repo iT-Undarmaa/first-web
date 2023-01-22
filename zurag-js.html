@@ -1,0 +1,299 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Zurhai</title>
+    </head>
+    <style>
+        body{
+            margin: 0 auto;
+        }
+        .one{
+            width: 90%;
+            float: left;
+            margin: 0 auto;
+        }
+        #one{
+            display: none;
+        }
+        .two{
+            width: 90%;
+            float: left;
+            margin: 0 auto;
+        }
+        #two{
+            display: none;
+        }
+        .three{
+            width: 90%;
+            float: left;
+            margin: 0 auto;
+        }
+        #three{
+            display: none;
+        }
+        .four{
+            width: 90%;
+            float: left;
+            margin: 0 auto;
+        }
+        #four{
+            display: none;
+        }
+        .five{
+            width: 90%;
+            float: left;
+            margin: 0 auto;
+        }
+        #five{
+            display: none;
+        }
+        .six{
+            width: 90%;
+            float: left;
+            margin: 0 auto;
+        }
+        #six{
+            display: none;
+        }
+        .seven{
+            width: 90%;
+            float: left;
+            margin: 0 auto;
+        }
+        #seven{
+            display: none;
+        }
+        .eight{
+            width: 90%;
+            float: left;
+            margin: 0 auto;
+        }
+        #eight{
+            display: none;
+        }
+        .nine{
+            width: 90%;
+            float: left;
+            margin: 0 auto;
+        }
+        #nine{
+            display: none;
+        }
+        .zurag{
+            height: 550px;
+            overflow: hidden;
+        }
+        .list{
+            width: 500px;
+            background-color:lightgray;
+            padding: 8px;
+            margin-left: 100px;
+            float: left;
+        }
+        img{
+            width: 100%;
+        }
+        </style>
+    <div>
+        <h1>Та хэрвээ 2023 оны зурхайгаа үзье гэвэл төрсөн өдрийн тоон дээрээ 1-ийг нэмж дахин оруулаад 2022 оны зурхай гэж дахин орвол тэр нь 2023 оны зурхай шүү...</h1>
+    </div>
+    <div class="one" id="one">
+        <div class="list">
+            <div class="zurag">
+                <img src="img/2022-01.png">
+            </div>
+        </div>
+    </div>
+    <div class="two" id="two">
+        <div class="list">
+            <div class="zurag">
+                <img src="img/2022-02.png">
+            </div>
+        </div>
+    </div>
+    <div class="three" id="three">
+        <div class="list">
+            <div class="zurag">
+                <img src="img/2022-03.png">
+            </div>
+        </div>
+        <div class="list">
+            <div class="zurag">
+                <img src="img/2022-03-2.png">
+            </div>
+        </div>
+    </div>
+    <div class="four" id="four">
+        <div class="list">
+            <div class="zurag">
+                <img src="img/2022-04.png">
+            </div>
+        </div>
+    </div>
+    <div class="five" id="five">
+        <div class="list">
+            <div class="zurag">
+                <img src="img/2022-05.png">
+            </div>
+        </div>
+    </div>
+    <div class="six" id="six">
+        <div class="list">
+            <div class="zurag">
+                <img src="img/2022-06.png">
+            </div>
+        </div>
+        <div class="list">
+            <div class="zurag">
+                <img src="img/2022-06-2.png">
+            </div>
+        </div>
+    </div>
+    <div class="seven" id="seven">
+        <div class="list">
+            <div class="zurag">
+                <img src="img/2022-07.png">
+            </div>
+        </div>
+        <div class="list">
+            <div class="zurag">
+                <img src="img/2022-07-2.png">
+            </div>
+        </div>
+    </div>
+    <div class="eight" id="eight">
+        <div class="list">
+            <div class="zurag">
+                <img src="img/2022-08.png">
+            </div>
+        </div>
+        <div class="list">
+            <div class="zurag">
+                <img src="img/2022-08-2.png">
+            </div>
+        </div>
+    </div>
+    <div class="nine" id="nine">
+        <div class="list">
+            <div class="zurag">
+                <img src="img/2022-09.png">
+            </div>
+        </div>
+        <div class="list">
+            <div class="zurag">
+                <img src="img/2022-09-2.png">
+            </div>
+        </div>
+    </div>
+<script>
+let number = prompt("Та хэдэн онд төрсөн бэ?");
+let fccunumber = prompt("Та хэдэн сард төрсөн бэ?");
+let eid = prompt("Та хэдний өдөр төрсөн бэ?");
+ x=Math.floor(fccunumber%10)+Math.floor(fccunumber/10)+Math.floor(eid/10)+Math.floor(eid%10)+6;
+ y=Math.floor(x/10)+Math.floor(x%10);
+ y=Math.floor(y/10)+Math.floor(y%10);
+console.log(y);
+</script>
+
+<button onclick="intipcentr()">таны 2022 оны зурхай</button>
+<script>
+function intipcentr() {
+switch (y) {
+       case 1: one();break;
+       case 2: two();break;
+       case 3: three();break;
+       case 4: four();break;
+       case 5: five();break;
+       case 6: six();break;
+       case 7: seven();break;
+       case 8: eight();break;
+       case 9: nine();break;
+           }
+   }
+</script>
+<script>
+    function one(){
+        let x=document.getElementById("one");
+        if(x.style.display==="block")
+        {
+            x.style.display="none";
+        } else{
+            x.style.display="block";
+        }
+    }
+        function two(){
+            let x=document.getElementById("two");
+            if(x.style.display==="block")
+            {
+                x.style.display="none";
+            } else{
+                x.style.display="block";
+            }}
+            function three(){
+            let x=document.getElementById("three");
+            if(x.style.display==="block")
+            {
+                x.style.display="none";
+            } else{
+                x.style.display="block";
+            }
+        }
+        function four(){
+            let x=document.getElementById("four");
+            if(x.style.display==="block")
+            {
+                x.style.display="none";
+            } else{
+                x.style.display="block";
+            }
+        }
+        function five(){
+            let x=document.getElementById("five");
+            if(x.style.display==="block")
+            {
+                x.style.display="none";
+            } else{
+                x.style.display="block";
+            }
+        }
+        function six(){
+            let x=document.getElementById("six");
+            if(x.style.display==="block")
+            {
+                x.style.display="none";
+            } else{
+                x.style.display="block";
+            }
+        }
+        function seven(){
+            let x=document.getElementById("seven");
+            if(x.style.display==="block")
+            {
+                x.style.display="none";
+            } else{
+                x.style.display="block";
+            }
+        }
+        function nine(){
+            let x=document.getElementById("nine");
+            if(x.style.display==="block")
+            {
+                x.style.display="none";
+            } else{
+                x.style.display="block";
+            }
+        }
+            function eight(){
+                let x=document.getElementById("eight");
+                if(x.style.display==="block")
+                {
+                    x.style.display="none";
+                } else{
+                    x.style.display="block";
+                }
+            }
+            </script>
+</html>
+
